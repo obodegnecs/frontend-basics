@@ -1,0 +1,10 @@
+{
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "oop_project\\classes\\": "oop_module/classes"
+    }
+  }
+}
