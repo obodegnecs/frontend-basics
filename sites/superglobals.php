@@ -6,21 +6,18 @@
     <?php
     session_start();
 
-    $superglobal_list = ["globals" => $GLOBALS,
-        "server" => $_SERVER,
-        "request" => $_REQUEST,
-        "post" => $_POST,
-        "get" => $_GET,
-        "files" => $_FILES,
-        "env" => $_ENV,
-        "cookie" => $_COOKIE,
-        "session" => $_SESSION];
-
     if (isset($_GET["submitted"])) {
-        if (!isset($_GET["superglobals"])) {
+        if (!isset($_GET["superglobal"])) {
             $error_message = "Please select one of the options!";
-        } elseif (array_key_exists($_GET["superglobals"], $superglobal_list)) {
-            $message = $superglobal_list[$_GET["superglobals"]];
+        } elseif ($_GET["superglobal"] === "GLOBALS") {
+            $message = $GLOBALS;
+        } elseif (array_key_exists($_GET["superglobal"], $GLOBALS)) {
+            foreach ($GLOBALS as $global => $value) {
+                if ($global === $_GET["superglobal"]) {
+                    $message = $value;
+                    break;
+                }
+            }
         } else {
             $error_message = "It is not a valid superglobal!";
         }
@@ -30,18 +27,18 @@
 <body>
     <h1>Superglobals</h1>
     <form action="superglobals.php" method="get" id="superglobals-form" >
-        <label for="superglobals">Choose a superglobal:</label>
-        <select name="superglobals" id="superglobals" form="superglobals-form">
+        <label for="superglobal">Choose a superglobal:</label>
+        <select name="superglobal" id="superglobal" form="superglobals-form" required>
             <option value="" selected disabled>- Please select -</option>
-            <option value="globals">$GLOBALS</option>
-            <option value="server">$_SERVER</option>
-            <option value="request">$_REQUEST</option>
-            <option value="post">$_POST</option>
-            <option value="get">$_GET</option>
-            <option value="files">$_FILES</option>
-            <option value="env">$_ENV</option>
-            <option value="cookie">$_COOKIE</option>
-            <option value="session">$_SESSION</option>
+            <option value="GLOBALS">$GLOBALS</option>
+            <option value="_SERVER">$_SERVER</option>
+            <option value="_REQUEST">$_REQUEST</option>
+            <option value="_POST">$_POST</option>
+            <option value="_GET">$_GET</option>
+            <option value="_FILES">$_FILES</option>
+            <option value="_ENV">$_ENV</option>
+            <option value="_COOKIE">$_COOKIE</option>
+            <option value="_SESSION">$_SESSION</option>
         </select>
         <input type="submit" value="Export superglobal">
         <input type="hidden" id="submitted" name="submitted" value="true">
