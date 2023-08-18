@@ -23,12 +23,23 @@
         }
     }
     ?>
+    <script type="text/javascript">
+        function validate() {
+            if( document.getElementById("superglobal").value === "" ) {
+                alert( "Please select an option!" );
+                document.getElementById("superglobal").focus() ;
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <h1>Superglobals</h1>
-    <form action="superglobals.php" method="get" id="superglobals-form" >
+    <form action="superglobals.php" method="get" id="superglobals-form"
+          name="superglobals-form" onsubmit = "return(validate());">
         <label for="superglobal">Choose a superglobal:</label>
-        <select name="superglobal" id="superglobal" form="superglobals-form" required>
+        <select name="superglobal" id="superglobal" form="superglobals-form" >
             <option value="" selected disabled>- Please select -</option>
             <option value="GLOBALS">$GLOBALS</option>
             <option value="_SERVER">$_SERVER</option>
@@ -45,7 +56,7 @@
     </form>
     <?php
     if (isset($error_message)) {
-        echo "<h2>" . $error_message . "</h2>";
+        echo "<h2>$error_message</h2>";
     }
     ?>
     <pre>
